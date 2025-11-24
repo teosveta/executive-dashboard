@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Business Performance Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="screen active">
+        <div class="welcome-container">
+            <h1 class="welcome-title">Executive Business Performance Dashboard</h1>
+            <p class="welcome-subtitle">Transform Data into Actionable Insights</p>
+            <p class="welcome-description">
+                Experience an interactive journey from raw data to strategic intelligence. 
+                Monitor KPIs, forecast trends, and simulate scenarios in real-time.
+            </p>
+            <button class="btn-primary btn-large" onclick="startJourney()">
+                Get Started <i class="fas fa-arrow-right"></i>
+            </button>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-upload feature-icon"></i>
+                    <h3>Smart Data Processing</h3>
+                    <p>Upload CSV files or use demo data with automated validation</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line feature-icon"></i>
+                    <h3>Predictive Analytics</h3>
+                    <p>Forecast revenue, model scenarios, and track trends</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bullseye feature-icon"></i>
+                    <h3>Interactive Insights</h3>
+                    <p>Drill-down dashboards with real-time KPI monitoring</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Source Selection Screen -->
+    <div id="dataSourceScreen" class="screen">
+        <div class="container">
+            <!-- Progress Steps -->
+            <div class="progress-steps">
+                <div class="step active" data-step="0">
+                    <div class="step-icon"><i class="fas fa-play"></i></div>
+                    <span>Welcome</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step active" data-step="1">
+                    <div class="step-icon"><i class="fas fa-upload"></i></div>
+                    <span>Data Source</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="2">
+                    <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+                    <span>Validation</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="3">
+                    <div class="step-icon"><i class="fas fa-bolt"></i></div>
+                    <span>ETL Process</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="4">
+                    <div class="step-icon"><i class="fas fa-chart-bar"></i></div>
+                    <span>Analysis</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="5">
+                    <div class="step-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <span>Dashboard</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Choose Your Data Source</h2>
+            <p class="section-subtitle">Upload your own CSV file or explore with our sample dataset</p>
+
+            <div class="source-grid">
+                <!-- Sample Data Card -->
+                <div class="source-card sample-card">
+                    <div class="card-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <h3>Use Demo Data</h3>
+                    <p>Explore with pre-loaded business metrics and sample data</p>
+                    
+                    <div id="sampleDatasets" class="dataset-list">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>12 months of revenue data</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Multi-department analytics</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Customer segmentation</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Trend forecasting</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload Data Card -->
+                <div class="source-card upload-card">
+                    <div class="card-icon upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Upload Your Data</h3>
+                    <p>Import CSV files with your business metrics</p>
+
+                    <div class="upload-zone" id="uploadZone">
+                        <i class="fas fa-file-csv upload-icon-large"></i>
+                        <p class="upload-text">Select CSV File</p>
+                        <p class="upload-subtext">or drag and drop here</p>
+                        <input type="file" id="fileInput" accept=".csv" style="display: none;">
+                    </div>
+
+                    <div class="info-box">
+                        <p class="info-title">Expected columns:</p>
+                        <p class="info-content">Date, Revenue, Department, Customers, etc.</p>
+                        <p class="info-note">
+                            The system will automatically detect and validate your data structure.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Processing Screen -->
+    <div id="processingScreen" class="screen">
+        <div class="processing-container">
+            <div class="processing-icon">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <h2 id="processingTitle">Processing Data</h2>
+            <p id="processingSubtitle">Please wait...</p>
+            
+            <div class="processing-steps">
+                <div class="processing-step">
+                    <span>Checking data structure...</span>
+                    <i class="fas fa-check-circle step-complete"></i>
+                </div>
+                <div class="processing-step">
+                    <span>Validating metrics...</span>
+                    <i class="fas fa-check-circle step-complete"></i>
+                </div>
+                <div class="processing-step active">
+                    <span id="processingStepText">Processing records...</span>
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboardScreen" class="screen">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div class="header-content">
+                <div>
+                    <h1 class="dashboard-title">Executive Dashboard</h1>
+                    <p class="dashboard-subtitle" id="dashboardSubtitle">Loading...</p>
+                </div>
+                <div class="header-controls">
+                    <select id="departmentFilter" class="control-select">
+                        <option value="all">All Departments</option>
+                    </select>
+                    <button class="btn-secondary" onclick="changeDataSource()">
+                        <i class="fas fa-sync-alt"></i> Change Data
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- Alerts -->
+            <div id="alertsContainer" class="alerts-container"></div>
+
+            <!-- KPI Cards -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Total Revenue</span>
+                        <i class="fas fa-dollar-sign kpi-icon"></i>
+                    </div>
+                    <div class="kpi-value" id="kpiRevenue">$0</div>
+                    <div class="kpi-change" id="kpiRevenueChange">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>0%</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Total Profit</span>
+                        <i class="fas fa-chart-line kpi-icon profit-icon"></i>
+                    </div>
+                    <div class="kpi-value" id="kpiProfit">$0</div>
+                    <div class="kpi-subtext" id="kpiMargin">0% margin</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Avg Customers</span>
+                        <i class="fas fa-users kpi-icon customers-icon"></i>
+                    </div>
+                    <div class="kpi-value" id="kpiCustomers">0</div>
+                    <div class="kpi-change" id="kpiCustomerChange">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>0%</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Total Costs</span>
+                        <i class="fas fa-receipt kpi-icon costs-icon"></i>
+                    </div>
+                    <div class="kpi-value" id="kpiCosts">$0</div>
+                    <div class="kpi-subtext" id="kpiCostRatio">0% of revenue</div>
+                </div>
+            </div>
+
+            <!-- Revenue Trend Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h2 class="chart-title">Revenue Trend & Forecast</h2>
+                        <p class="chart-subtitle">Historical data with multi-month projection</p>
+                    </div>
+                    <div class="chart-controls">
+                        <label>
+                            <span>Forecast months:</span>
+                            <input type="number" id="forecastMonths" min="1" max="12" value="3" class="control-input">
+                        </label>
+                    </div>
+                </div>
+                <canvas id="revenueChart"></canvas>
+            </div>
+
+            <!-- Scenario Modeling -->
+            <div class="scenario-card">
+                <div class="scenario-header">
+                    <div>
+                        <h2 class="chart-title">
+                            <i class="fas fa-bolt"></i> Scenario Modeling
+                        </h2>
+                        <p class="chart-subtitle">Simulate the impact of revenue changes</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="scenarioToggle">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-label">Enable Scenarios</span>
+                    </label>
+                </div>
+
+                <div class="scenario-content">
+                    <div class="scenario-controls">
+                        <div class="slider-container">
+                            <label class="slider-label">Revenue Adjustment (%)</label>
+                            <input type="range" id="scenarioSlider" min="-50" max="50" value="0" class="slider">
+                            <div class="slider-values">
+                                <span>-50%</span>
+                                <span class="slider-current" id="sliderValue">0%</span>
+                                <span>+50%</span>
+                            </div>
+                        </div>
+
+                        <div class="scenario-impact">
+                            <h3>Projected Impact</h3>
+                            <div class="impact-row">
+                                <span>New Revenue:</span>
+                                <strong id="scenarioRevenue">$0</strong>
+                            </div>
+                            <div class="impact-row">
+                                <span>New Profit:</span>
+                                <strong id="scenarioProfit">$0</strong>
+                            </div>
+                            <div class="impact-row">
+                                <span>Change:</span>
+                                <strong id="scenarioChange" class="change-positive">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="scenarioChartContainer" class="scenario-chart-container" style="display: none;">
+                        <canvas id="scenarioChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Department Charts -->
+            <div class="charts-row">
+                <div class="chart-card half-width">
+                    <h2 class="chart-title">Department Revenue</h2>
+                    <canvas id="departmentChart"></canvas>
+                </div>
+
+                <div class="chart-card half-width">
+                    <h2 class="chart-title">Customer Distribution</h2>
+                    <canvas id="customerChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Export Section -->
+            <div class="export-card">
+                <div class="export-content">
+                    <div>
+                        <h3 class="export-title">Export & Share</h3>
+                        <p class="export-subtitle">Download reports and visualizations</p>
+                    </div>
+                    <div class="export-buttons">
+                        <button class="btn-primary" onclick="exportPDF()">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="btn-secondary" onclick="exportCSV()">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
